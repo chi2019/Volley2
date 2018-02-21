@@ -1,6 +1,7 @@
 package com.example.chanakya.volley2;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -43,12 +44,21 @@ public class ListFragment extends Fragment {
     RecyclerView recyclerView;
     MyAdapter adapter;
     ToggleButton tg;
+ //   Communicate communicator;
+    Listner listner;
+    Context context;
 
 
     public ListFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    //    communicator = (Communicate) getActivity();
+        listner = (Listner) getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +68,8 @@ public class ListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_list, container, false);
 
         tg = v.findViewById(R.id.toggleButton);
+        context = getContext();
+
 
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -105,6 +117,7 @@ public class ListFragment extends Fragment {
                             }
 
                             adapter = new MyAdapter(getContext(),items);
+                            adapter.setListener(listner);
                             recyclerView.setAdapter(adapter);
 
 
@@ -124,6 +137,22 @@ public class ListFragment extends Fragment {
         queue.add(stringRequest);
 
 
+
+/*
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(context, recyclerView ,new OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        DetailsFragment detailsFragment = new DetailsFragment();
+                        getFragmentManager().beginTransaction().replace(R.id.fragmentContainer,detailsFragment).commit();
+
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+*/
 
 
 
